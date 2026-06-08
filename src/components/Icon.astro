@@ -1,0 +1,10 @@
+---
+export interface Props {
+  name: string;
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+---
+
+<i class={`fa-solid fa-${name} ${className ?? ''}`}></i>

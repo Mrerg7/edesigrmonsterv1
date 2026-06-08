@@ -1,0 +1,42 @@
+---
+import { ACQUISITION_MAILTO } from '../config/site';
+---
+
+<nav class="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-zinc-950/80 backdrop-blur-lg" id="nav">
+  <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+    <div class="flex items-center gap-x-3">
+      <a href="/" class="flex items-center gap-x-2">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 flex items-center justify-center">
+          <span class="text-zinc-950 font-black text-2xl tracking-tighter">eD</span>
+        </div>
+        <div>
+          <span class="font-display text-2xl font-semibold tracking-tighter">eDesigr</span>
+          <span class="text-xs text-zinc-500 font-mono tracking-[3px] ml-0.5">.MONSTER</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="hidden md:flex items-center gap-x-8 text-sm">
+      <a href="#why" class="hover:text-white transition-colors text-zinc-400">Why This Domain</a>
+      <a href="#ai" class="hover:text-white transition-colors text-zinc-400">AI + Creative</a>
+      <a href="#for" class="hover:text-white transition-colors text-zinc-400">Perfect For</a>
+      <a href="#acquire" class="hover:text-white transition-colors text-zinc-400">Acquire</a>
+    </div>
+
+    <div class="flex items-center gap-x-4">
+      <a
+        href="#acquire"
+        class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold rounded-2xl bg-white text-zinc-950 hover:bg-zinc-100 transition-all active:scale-[0.985]"
+      >
+        Acquire Now
+      </a>
+      <a
+        href={ACQUISITION_MAILTO}
+        class="inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium rounded-2xl border border-white/20 hover:bg-white/5 transition-all"
+      >
+        <i class="fa-solid fa-envelope mr-2"></i>
+        <span class="hidden sm:inline">Inquire</span>
+      </a>
+    </div>
+  </div>
+</nav>

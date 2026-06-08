@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-zinc-950 text-zinc-200 overflow-x-hidden font-sans antialiased;
+  }
+}
+
+@layer components {
+  .font-display {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-weight: 600;
+  }
+
+  .monster-gradient {
+    background: linear-gradient(135deg, #00f0ff 0%, #a855f7 50%, #ec4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .monster-text {
+    background: linear-gradient(to right, #00f0ff, #c026d3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .domain-hero {
+    font-size: 4.5rem;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.06em;
+  }
+
+  .section-header {
+    font-size: 2.75rem;
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+  }
+
+  .premium-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .premium-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  }
+
+  .nav-scrolled {
+    background-color: rgba(10, 10, 15, 0.95);
+    backdrop-filter: blur(12px);
+  }
+
+  .ai-glow {
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+  }
+
+  .creative-grid {
+    background-image:
+      linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+}
