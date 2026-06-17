@@ -6,12 +6,14 @@ interface Props {
   title?: string;
   description?: string;
   ogImage?: string;
+  noindex?: boolean;
 }
 
 const {
   title = SITE.title,
   description = SITE.description,
   ogImage = OG_IMAGE,
+  noindex = false,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, SITE.url);
@@ -141,7 +143,7 @@ const structuredData = {
 
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="robots" content={noindex ? 'noindex' : 'index, follow, max-image-preview:large'} />
     <link rel="canonical" href={canonicalURL} />
 
     <meta property="og:type" content="website" />
