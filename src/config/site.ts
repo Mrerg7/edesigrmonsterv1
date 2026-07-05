@@ -3,7 +3,7 @@ export const SITE = {
   title: 'eDesigr.monster • Premium Domain for Sale | Electronic Designers & AI Creatives',
   description:
     'eDesigr.monster — The definitive premium domain for electronic designers, generative artists, AI art platforms, and creative studios using AI for art and copy. Strategic acquisition available.',
-  url: 'https://edesigr.monster',
+  url: 'https://edesigr.monster/',
   email: 'sales@desertrich.com',
   locale: 'en_US',
   location: 'Arizona',
