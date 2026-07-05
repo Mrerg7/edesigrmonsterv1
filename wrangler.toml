@@ -1,4 +1,4 @@
-name = "edesigr-monster"
+name = "edesigrmonsterv1"
 main = "src/worker.ts"
 compatibility_date = "2026-06-08"
 
