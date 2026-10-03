@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+
+const posts = [
+  {
+    slug: 'domain-valuation-guide',
+    title: 'Premium Domain Valuation Guide: How $95,000 Was Priced',
+    excerpt: 'Length, semantics, TLD energy, comparables and AI-category timing — the 5-factor model behind eDesigr.monster.',
+    date: '2026-09-20',
+  },
+  {
+    slug: 'monster-tld-brandable-domains',
+    title: 'Why .monster Works for Bold Creative Brands',
+    excerpt: 'Memorability data, radio-test results, and when a new TLD beats a long .com for AI studios.',
+    date: '2026-09-27',
+  },
+  {
+    slug: 'domain-escrow-transfer-checklist',
+    title: 'Domain Escrow Transfer Checklist: Close in 3–10 Days',
+    excerpt: 'Escrow.com vs Dan.com steps, registrar push checklist, and how funds stay protected until transfer confirms.',
+    date: '2026-10-03',
+  },
+];
+---
+
+<BaseLayout
+  title="Domain Guides & Valuation Insights | eDesigr.monster"
+  description="Weekly guides on premium domain valuation, .monster branding, and secure escrow transfers. Learn why eDesigr.monster is priced at $95,000."
+  canonicalPath="/blog/"
+>
+  <Nav />
+  <main id="main" class="pt-28 pb-20 max-w-4xl mx-auto px-6">
+    <p class="text-xs uppercase tracking-[3px] text-cyan-400 font-extrabold mb-4">Content hub — updated weekly</p>
+    <h1 class="font-display text-4xl sm:text-5xl tracking-tight mb-4">Domain guides &amp; market insights.</h1>
+    <p class="text-zinc-400 max-w-2xl mb-10">Valuation breakdowns, brand strategy, and escrow checklists for premium domain buyers — building topical authority around eDesigr.monster.</p>
+    <div class="space-y-4">
+      {posts.map((p) => (
+        <a href={`/blog/${p.slug}/`} class="block premium-card bg-zinc-900 border border-white/10 rounded-3xl p-7 hover:border-cyan-400/30">
+          <div class="text-xs text-zinc-500 mb-2">{p.date}</div>
+          <h2 class="font-display text-2xl tracking-tight mb-2">{p.title}</h2>
+          <p class="text-zinc-400 text-[15px]">{p.excerpt}</p>
+          <span class="inline-block mt-4 text-sm font-semibold text-cyan-400">Read guide →</span>
+        </a>
+      ))}
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

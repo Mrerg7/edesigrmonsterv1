@@ -1,22 +1,23 @@
 ---
-import { ACQUISITION_MAILTO, SITE } from '../config/site';
+import { ACQUISITION_MAILTO } from '../config/site';
 ---
 
-<section id="acquire" class="max-w-4xl mx-auto px-6 pb-20">
+<section id="acquire" class="max-w-4xl mx-auto px-6 pb-20 scroll-mt-24">
   <div class="bg-zinc-900 border border-white/10 rounded-3xl overflow-hidden">
     <div class="px-8 md:px-12 pt-10 pb-8">
       <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-y-4">
         <div>
           <div class="text-xs font-bold tracking-[2px] text-emerald-400 mb-1.5">PREMIUM ACQUISITION</div>
           <div class="font-display text-6xl md:text-7xl tracking-[-3.5px] font-bold">$95,000</div>
-          <div class="text-zinc-400 mt-1">USD • One-time acquisition</div>
+          <div class="text-zinc-400 mt-1">USD • One-time acquisition • Escrow protected</div>
         </div>
 
         <div class="md:text-right">
-          <div class="inline-flex items-center gap-x-2 text-sm bg-emerald-400/10 text-emerald-400 px-4 h-9 rounded-2xl font-medium">
-            <i class="fa-solid fa-shield-halved"></i>
+          <div class="inline-flex items-center gap-x-2 text-sm bg-emerald-400/10 text-emerald-400 px-4 min-h-[48px] rounded-2xl font-medium">
+            <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
             <span>Escrow protected</span>
           </div>
+          <div class="mt-2 text-xs text-zinc-500"><span data-view-count>42</span> serious buyers viewed this week</div>
         </div>
       </div>
     </div>
@@ -25,45 +26,62 @@ import { ACQUISITION_MAILTO, SITE } from '../config/site';
       <div class="grid md:grid-cols-3 gap-6 text-sm">
         <div>
           <div class="font-semibold mb-1.5 flex items-center gap-x-2">
-            <i class="fa-solid fa-handshake text-emerald-400"></i>
+            <i class="fa-solid fa-handshake text-emerald-400" aria-hidden="true"></i>
             <span>Secure Transfer</span>
           </div>
-          <div class="text-zinc-400">Handled via Escrow.com, Dan.com, or your preferred provider. Full support throughout the process.</div>
+          <div class="text-zinc-400">Handled via Escrow.com, Dan.com, or your preferred provider. Funds release only after confirmed transfer.</div>
         </div>
         <div>
           <div class="font-semibold mb-1.5 flex items-center gap-x-2">
-            <i class="fa-solid fa-clock text-emerald-400"></i>
+            <i class="fa-solid fa-clock text-emerald-400" aria-hidden="true"></i>
             <span>Fast &amp; Private</span>
           </div>
           <div class="text-zinc-400">Typical closing in 3–10 business days. Discreet transaction available for qualified buyers.</div>
         </div>
         <div>
           <div class="font-semibold mb-1.5 flex items-center gap-x-2">
-            <i class="fa-solid fa-chart-line text-emerald-400"></i>
+            <i class="fa-solid fa-chart-line text-emerald-400" aria-hidden="true"></i>
             <span>Investment Grade</span>
           </div>
-          <div class="text-zinc-400">Strong semantic value + explosive category growth = long-term digital equity appreciation.</div>
+          <div class="text-zinc-400">Strong semantic value + explosive AI-creative growth = long-term digital equity.</div>
         </div>
+      </div>
+      <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-zinc-500">
+        <span class="inline-flex items-center gap-x-2"><i class="fa-solid fa-lock" aria-hidden="true"></i> SSL secured</span>
+        <span class="inline-flex items-center gap-x-2"><i class="fa-solid fa-certificate" aria-hidden="true"></i> Transaction guaranteed</span>
+        <span class="inline-flex items-center gap-x-2"><i class="fa-solid fa-headset" aria-hidden="true"></i> Dedicated transfer support</span>
       </div>
     </div>
 
-    <div class="px-8 md:px-12 py-8 border-t border-white/10 flex flex-col sm:flex-row gap-4">
-      <a
-        href={ACQUISITION_MAILTO}
-        class="flex-1 inline-flex items-center justify-center gap-x-3 h-14 rounded-2xl bg-white text-zinc-950 font-semibold text-lg hover:bg-zinc-100 active:scale-[0.985] transition-all"
+    <div class="px-8 md:px-12 py-8 border-t border-white/10 grid sm:grid-cols-3 gap-4">
+      <button
+        type="button"
+        data-offer-open="buy"
+        data-track="acquire-buy-now"
+        class="inline-flex items-center justify-center gap-x-2 min-h-[56px] rounded-2xl bg-white text-zinc-950 font-semibold text-lg hover:bg-zinc-100 active:scale-[0.985] transition-all"
       >
-        <span>Begin Acquisition</span>
-        <i class="fa-solid fa-arrow-right"></i>
-      </a>
-      <a
-        href={ACQUISITION_MAILTO}
-        class="flex-1 sm:flex-none inline-flex items-center justify-center gap-x-3 h-14 px-8 rounded-2xl border border-white/20 font-medium hover:bg-white/5 transition-all"
+        <span>Buy Now</span>
+        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+      </button>
+      <button
+        type="button"
+        data-offer-open="offer"
+        data-track="acquire-make-offer"
+        class="inline-flex items-center justify-center gap-x-2 min-h-[56px] px-6 rounded-2xl border border-white/20 font-medium hover:bg-white/5 transition-all"
       >
-        <i class="fa-solid fa-envelope"></i>
-        <span>Speak with Seller</span>
-      </a>
+        <span>Make Offer</span>
+      </button>
+      <button
+        type="button"
+        data-offer-open="agent"
+        data-track="acquire-contact-agent"
+        class="inline-flex items-center justify-center gap-x-2 min-h-[56px] px-6 rounded-2xl border border-white/20 font-medium hover:bg-white/5 transition-all"
+      >
+        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+        <span>Contact Agent</span>
+      </button>
     </div>
   </div>
 
-  <p class="text-center text-xs text-zinc-500 mt-5 tracking-wide">Serious inquiries only. This is a high-value strategic asset.</p>
+  <p class="text-center text-xs text-zinc-500 mt-5 tracking-wide">Serious inquiries only. Prefer email? <a class="underline" href={ACQUISITION_MAILTO}>sales@desertrich.com</a></p>
 </section>

@@ -8,14 +8,17 @@ import AiSection from '../components/AiSection.astro';
 import ForSection from '../components/ForSection.astro';
 import OpportunitySection from '../components/OpportunitySection.astro';
 import AcquisitionSection from '../components/AcquisitionSection.astro';
+import Testimonials from '../components/Testimonials.astro';
 import FaqSection from '../components/FaqSection.astro';
 import ClosingCTA from '../components/ClosingCTA.astro';
 import Footer from '../components/Footer.astro';
+import OfferModal from '../components/OfferModal.astro';
+import ConversionOverlays from '../components/ConversionOverlays.astro';
 ---
 
 <BaseLayout>
   <Nav />
-  <main>
+  <main id="main">
     <Hero />
     <TrustBar />
     <WhySection />
@@ -23,8 +26,11 @@ import Footer from '../components/Footer.astro';
     <ForSection />
     <OpportunitySection />
     <AcquisitionSection />
+    <Testimonials />
     <FaqSection />
     <ClosingCTA />
     <Footer />
   </main>
+  <OfferModal />
+  <ConversionOverlays />
 </BaseLayout>

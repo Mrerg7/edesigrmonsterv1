@@ -5,8 +5,8 @@ import { ACQUISITION_MAILTO } from '../config/site';
 <nav class="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-zinc-950/80 backdrop-blur-lg" id="nav">
   <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
     <div class="flex items-center gap-x-3">
-      <a href="/" class="flex items-center gap-x-2">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 flex items-center justify-center">
+      <a href="/" class="flex items-center gap-x-2 min-h-[48px]" aria-label="eDesigr.monster home">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 flex items-center justify-center" aria-hidden="true">
           <span class="text-zinc-950 font-black text-2xl tracking-tighter">eD</span>
         </div>
         <div>
@@ -17,26 +17,86 @@ import { ACQUISITION_MAILTO } from '../config/site';
     </div>
 
     <div class="hidden md:flex items-center gap-x-8 text-sm">
-      <a href="#why" class="hover:text-white transition-colors text-zinc-400">Why This Domain</a>
-      <a href="#ai" class="hover:text-white transition-colors text-zinc-400">AI + Creative</a>
-      <a href="#for" class="hover:text-white transition-colors text-zinc-400">Perfect For</a>
-      <a href="#acquire" class="hover:text-white transition-colors text-zinc-400">Acquire</a>
+      <a href="#why" class="hover:text-white transition-colors text-zinc-400 min-h-[48px] inline-flex items-center">Why This Domain</a>
+      <a href="#ai" class="hover:text-white transition-colors text-zinc-400 min-h-[48px] inline-flex items-center">AI + Creative</a>
+      <a href="#for" class="hover:text-white transition-colors text-zinc-400 min-h-[48px] inline-flex items-center">Perfect For</a>
+      <a href="#acquire" class="hover:text-white transition-colors text-zinc-400 min-h-[48px] inline-flex items-center">Acquire</a>
+      <a href="/blog/" class="hover:text-white transition-colors text-zinc-400 min-h-[48px] inline-flex items-center">Guides</a>
     </div>
 
-    <div class="flex items-center gap-x-4">
+    <div class="flex items-center gap-x-3">
+      <button
+        type="button"
+        id="theme-toggle"
+        class="inline-flex items-center justify-center w-12 h-12 rounded-2xl border border-white/20 hover:bg-white/5 transition-all"
+        aria-label="Toggle light and dark mode"
+      >
+        <i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i>
+      </button>
       <a
         href="#acquire"
-        class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold rounded-2xl bg-white text-zinc-950 hover:bg-zinc-100 transition-all active:scale-[0.985]"
+        data-track="nav-acquire"
+        class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 min-h-[48px] text-sm font-semibold rounded-2xl bg-white text-zinc-950 hover:bg-zinc-100 transition-all active:scale-[0.985]"
       >
         Acquire Now
       </a>
       <a
         href={ACQUISITION_MAILTO}
-        class="inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium rounded-2xl border border-white/20 hover:bg-white/5 transition-all"
+        data-track="nav-inquire"
+        class="hidden sm:inline-flex items-center justify-center px-4 py-2.5 min-h-[48px] text-sm font-medium rounded-2xl border border-white/20 hover:bg-white/5 transition-all"
       >
-        <i class="fa-solid fa-envelope mr-2"></i>
-        <span class="hidden sm:inline">Inquire</span>
+        <i class="fa-solid fa-envelope mr-2" aria-hidden="true"></i>
+        <span>Inquire</span>
       </a>
+      <button
+        type="button"
+        id="menu-button"
+        class="md:hidden inline-flex items-center justify-center w-12 h-12 rounded-2xl border border-white/20 hover:bg-white/5 transition-all"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Open navigation menu"
+      >
+        <i class="fa-solid fa-bars" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 bg-zinc-950/95 backdrop-blur-lg">
+    <div class="px-6 py-4 flex flex-col gap-1 text-base">
+      <a href="#why" class="mobile-link py-3 min-h-[48px] inline-flex items-center text-zinc-300">Why This Domain</a>
+      <a href="#ai" class="mobile-link py-3 min-h-[48px] inline-flex items-center text-zinc-300">AI + Creative</a>
+      <a href="#for" class="mobile-link py-3 min-h-[48px] inline-flex items-center text-zinc-300">Perfect For</a>
+      <a href="#acquire" class="mobile-link py-3 min-h-[48px] inline-flex items-center text-zinc-300">Acquire</a>
+      <a href="/blog/" class="mobile-link py-3 min-h-[48px] inline-flex items-center text-zinc-300">Guides</a>
+      <a href="#acquire" data-track="nav-mobile-acquire" class="mobile-link mt-2 inline-flex items-center justify-center px-5 min-h-[48px] font-semibold rounded-2xl bg-white text-zinc-950">Acquire Now</a>
     </div>
   </div>
 </nav>
+
+<script is:inline>
+  (function () {
+    var btn = document.getElementById('menu-button');
+    var menu = document.getElementById('mobile-menu');
+    if (btn && menu) {
+      btn.addEventListener('click', function () {
+        var open = menu.classList.toggle('hidden');
+        btn.setAttribute('aria-expanded', String(!open));
+      });
+      menu.querySelectorAll('.mobile-link').forEach(function (a) {
+        a.addEventListener('click', function () {
+          menu.classList.add('hidden');
+          btn.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+    var theme = document.getElementById('theme-toggle');
+    if (theme) {
+      theme.addEventListener('click', function () {
+        var light = document.documentElement.classList.toggle('light');
+        try {
+          localStorage.setItem('edesigr-theme', light ? 'light' : 'dark');
+        } catch {}
+      });
+    }
+  })();
+</script>

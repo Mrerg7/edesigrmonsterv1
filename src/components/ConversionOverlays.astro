@@ -1,0 +1,55 @@
+---
+/* Sticky mobile CTA + exit-intent capture (CRO). No paid services. */
+---
+
+<div class="fixed bottom-0 inset-x-0 z-[60] sm:hidden border-t border-white/10 bg-zinc-950/90 backdrop-blur-lg p-3" role="region" aria-label="Quick purchase actions">
+  <div class="grid grid-cols-2 gap-3">
+    <button type="button" data-offer-open="buy" data-track="sticky-buy" class="min-h-[48px] inline-flex items-center justify-center rounded-2xl bg-white text-zinc-950 font-semibold">Buy — $95k</button>
+    <button type="button" data-offer-open="offer" data-track="sticky-offer" class="min-h-[48px] inline-flex items-center justify-center rounded-2xl border border-white/20 font-medium">Make Offer</button>
+  </div>
+</div>
+
+<div id="exit-modal" class="hidden fixed inset-0 z-[70] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="exit-title">
+  <div class="absolute inset-0 bg-black/70" onclick="document.getElementById('exit-modal').classList.add('hidden')" aria-hidden="true"></div>
+  <div class="relative w-full max-w-md rounded-3xl border border-white/10 bg-zinc-950 p-8">
+    <h2 id="exit-title" class="font-display text-2xl tracking-tight mb-2">Before you go…</h2>
+    <p class="text-sm text-zinc-400 mb-6">Only one buyer can own eDesigr.monster. Leave your email for a private valuation sheet + 48-hour offer window.</p>
+    <form id="exit-form" class="space-y-3" novalidate>
+      <label for="exit-email" class="sr-only">Email address</label>
+      <input id="exit-email" type="email" required placeholder="you@studio.com" class="w-full min-h-[48px] rounded-2xl bg-zinc-900 border border-white/10 px-4 text-white placeholder:text-zinc-500" />
+      <p id="exit-error" class="hidden text-sm text-rose-400" role="alert"></p>
+      <p id="exit-success" class="hidden text-sm text-emerald-400" role="status"></p>
+      <button type="submit" data-track="exit-submit" class="w-full min-h-[48px] rounded-2xl bg-white text-zinc-950 font-semibold">Send valuation sheet</button>
+      <button type="button" onclick="document.getElementById('exit-modal').classList.add('hidden')" class="w-full min-h-[48px] rounded-2xl border border-white/20 text-sm">No thanks</button>
+    </form>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var f = document.getElementById('exit-form');
+    if (!f) return;
+    f.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var email = document.getElementById('exit-email');
+      var err = document.getElementById('exit-error');
+      var ok = document.getElementById('exit-success');
+      if (err) err.classList.add('hidden');
+      if (ok) ok.classList.add('hidden');
+      var v = email ? String(email.value || '').trim() : '';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) {
+        if (err) { err.textContent = 'Enter a valid email.'; err.classList.remove('hidden'); }
+        return;
+      }
+      try {
+        await fetch('/api/inquire', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ kind: 'agent', name: 'Exit-intent lead', email: v, message: 'Requested valuation sheet via exit-intent.' }),
+        });
+      } catch {}
+      if (ok) { ok.textContent = 'Done — check your inbox within 24 hours.'; ok.classList.remove('hidden'); }
+      setTimeout(function () { document.getElementById('exit-modal').classList.add('hidden'); }, 1200);
+    });
+  })();
+</script>

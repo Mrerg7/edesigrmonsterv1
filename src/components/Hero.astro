@@ -2,50 +2,81 @@
 import { ACQUISITION_MAILTO } from '../config/site';
 ---
 
-<section class="pt-20 pb-16 md:pt-24 md:pb-20 border-b border-white/10 creative-grid">
+<section class="pt-28 pb-16 md:pt-32 md:pb-20 border-b border-white/10 creative-grid">
   <div class="max-w-5xl mx-auto px-6 text-center">
     <div class="inline-flex items-center gap-x-2 px-4 py-1.5 rounded-3xl bg-white/5 border border-white/10 mb-6">
-      <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+      <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" aria-hidden="true"></div>
       <span class="text-xs font-medium tracking-[1.5px] text-emerald-400">PREMIUM DOMAIN • STRATEGIC ACQUISITION</span>
     </div>
 
-    <h1 class="font-display text-[3.25rem] md:text-[4.75rem] leading-[0.95] tracking-[-0.055em] mb-4">
+    <h1 class="font-display text-[3.25rem] md:text-[4.75rem] leading-[0.95] tracking-[-0.055em] mb-4 animate-fade-in">
       <span class="text-white">eDesigr</span><span class="monster-text">.monster</span>
     </h1>
 
-    <p class="max-w-2xl mx-auto text-2xl md:text-3xl font-medium tracking-tight text-zinc-300 mb-8">
+    <p class="max-w-2xl mx-auto text-2xl md:text-3xl font-medium tracking-tight text-zinc-300 mb-6">
       The definitive domain for<br class="hidden md:block" />electronic designers &amp; AI creatives.
     </p>
 
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
-      <a
-        href={ACQUISITION_MAILTO}
-        class="group w-full sm:w-auto inline-flex items-center justify-center gap-x-3 px-9 py-4 text-lg font-semibold rounded-3xl bg-white text-zinc-950 hover:bg-zinc-100 active:scale-[0.985] transition-all shadow-xl shadow-black/20"
-      >
-        <span>Acquire for $95,000</span>
-        <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-      </a>
-      <a
-        href="#why"
-        class="w-full sm:w-auto inline-flex items-center justify-center gap-x-2 px-8 py-4 text-lg font-medium rounded-3xl border border-white/20 hover:bg-white/5 transition-all"
-      >
-        <span>Explore the opportunity</span>
-      </a>
+    <!-- Urgency + social proof strip (CRO) -->
+    <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-zinc-400 mb-8" role="status" aria-live="polite">
+      <span class="inline-flex items-center gap-x-2">
+        <i class="fa-solid fa-eye text-cyan-400" aria-hidden="true"></i>
+        <span><strong class="text-white" data-view-count>42</strong> buyers viewing this week</span>
+      </span>
+      <span class="inline-flex items-center gap-x-2">
+        <i class="fa-solid fa-bolt text-amber-400" aria-hidden="true"></i>
+        <span>Only <strong class="text-white">1 of 1</strong> available — low stock</span>
+      </span>
+      <span class="inline-flex items-center gap-x-2">
+        <i class="fa-solid fa-shield-halved text-emerald-400" aria-hidden="true"></i>
+        <span>Escrow.com protected</span>
+      </span>
     </div>
 
-    <div class="flex items-center justify-center gap-x-8 text-sm text-zinc-500">
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+      <button
+        type="button"
+        data-offer-open="buy"
+        data-track="hero-buy-now"
+        class="group w-full sm:w-auto inline-flex items-center justify-center gap-x-3 px-9 min-h-[56px] py-4 text-lg font-semibold rounded-3xl bg-white text-zinc-950 hover:bg-zinc-100 active:scale-[0.985] transition-all shadow-xl shadow-black/20"
+      >
+        <span>Buy Now — $95,000</span>
+        <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform" aria-hidden="true"></i>
+      </button>
+      <button
+        type="button"
+        data-offer-open="offer"
+        data-track="hero-make-offer"
+        class="w-full sm:w-auto inline-flex items-center justify-center gap-x-2 px-8 min-h-[56px] py-4 text-lg font-medium rounded-3xl border border-white/20 hover:bg-white/5 transition-all"
+      >
+        <span>Make an Offer</span>
+      </button>
+    </div>
+
+    <p class="text-sm text-zinc-500 mb-10">
+      Prefer email? <a class="underline underline-offset-4 hover:text-white" data-track="hero-mailto" href={ACQUISITION_MAILTO}>sales@desertrich.com</a> — response within 24 hours.
+    </p>
+
+    <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-sm text-zinc-500">
       <div class="flex items-center gap-x-2">
-        <i class="fa-solid fa-check text-emerald-400"></i>
+        <i class="fa-solid fa-check text-emerald-400" aria-hidden="true"></i>
         <span>Instant brand recognition</span>
       </div>
       <div class="flex items-center gap-x-2">
-        <i class="fa-solid fa-check text-emerald-400"></i>
+        <i class="fa-solid fa-check text-emerald-400" aria-hidden="true"></i>
         <span>AI-era ready</span>
       </div>
       <div class="flex items-center gap-x-2">
-        <i class="fa-solid fa-check text-emerald-400"></i>
+        <i class="fa-solid fa-check text-emerald-400" aria-hidden="true"></i>
         <span>Category-defining</span>
       </div>
+    </div>
+
+    <!-- Trust signals -->
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-zinc-500">
+      <span class="inline-flex items-center gap-x-2"><i class="fa-solid fa-lock" aria-hidden="true"></i> SSL secured checkout via escrow</span>
+      <span class="inline-flex items-center gap-x-2"><i class="fa-solid fa-handshake" aria-hidden="true"></i> Escrow.com • Dan.com • Transaction guaranteed</span>
+      <span class="inline-flex items-center gap-x-2"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Funds released only after transfer</span>
     </div>
   </div>
 </section>

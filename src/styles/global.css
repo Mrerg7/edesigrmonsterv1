@@ -5,8 +5,36 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
   body {
     @apply bg-zinc-950 text-zinc-200 overflow-x-hidden font-sans antialiased;
+    font-size: 16px;
+  }
+  /* Light mode (toggle, stored locally) */
+  html.light body {
+    @apply bg-white text-zinc-900;
+  }
+  html.light .bg-zinc-950 { background-color: #ffffff !important; }
+  html.light .bg-zinc-900 { background-color: #f4f4f5 !important; }
+  html.light .text-white { color: #09090b !important; }
+  html.light .text-zinc-300, html.light .text-zinc-400 { color: #3f3f46 !important; }
+  html.light .text-zinc-500 { color: #63636b !important; }
+  html.light .border-white\/10, html.light .border-white\/20 { border-color: rgb(0 0 0 / 0.1) !important; }
+
+  :focus-visible {
+    outline: 3px solid #22d3ee;
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
@@ -45,7 +73,7 @@
   }
 
   .premium-card {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s, border-color 0.3s;
   }
 
   .premium-card:hover {
@@ -67,5 +95,13 @@
       linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
       linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
     background-size: 60px 60px;
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.6s ease-out both;
   }
 }

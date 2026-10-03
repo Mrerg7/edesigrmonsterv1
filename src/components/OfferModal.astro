@@ -1,0 +1,121 @@
+---
+/* Serverless offer modal: Buy Now / Make Offer / Contact Agent -> POST /api/inquire (Workers free plan) */
+---
+
+<div id="offer-modal" class="hidden fixed inset-0 z-[70] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="offer-title">
+  <div class="absolute inset-0 bg-black/70" data-offer-close aria-hidden="true"></div>
+  <div class="relative w-full max-w-lg rounded-3xl border border-white/10 bg-zinc-950 p-8 shadow-2xl">
+    <div class="flex items-start justify-between gap-4 mb-2">
+      <h2 id="offer-title" class="font-display text-2xl tracking-tight">Acquire eDesigr.monster</h2>
+      <button type="button" data-offer-close class="w-12 h-12 inline-flex items-center justify-center rounded-2xl border border-white/20 hover:bg-white/5" aria-label="Close dialog">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+    </div>
+    <p class="text-sm text-zinc-400 mb-6">Secure escrow transfer • 3–10 business days • Confidential.</p>
+
+    <div class="grid grid-cols-3 gap-2 mb-6" role="tablist" aria-label="Inquiry type">
+      <button type="button" data-kind="buy" class="kind-btn min-h-[48px] px-3 py-3 rounded-2xl text-sm font-semibold border border-white/20 bg-white text-zinc-950">Buy Now</button>
+      <button type="button" data-kind="offer" class="kind-btn min-h-[48px] px-3 py-3 rounded-2xl text-sm font-semibold border border-white/20 hover:bg-white/5">Make Offer</button>
+      <button type="button" data-kind="agent" class="kind-btn min-h-[48px] px-3 py-3 rounded-2xl text-sm font-semibold border border-white/20 hover:bg-white/5">Contact Agent</button>
+    </div>
+
+    <form id="offer-form" class="space-y-4" novalidate>
+      <div id="offer-amount-wrap" class="hidden">
+        <label for="offer-amount" class="block text-sm font-medium mb-2">Your offer (USD)</label>
+        <input id="offer-amount" name="offer" type="number" min="1000" step="100" inputmode="numeric" placeholder="e.g. 75000" class="w-full min-h-[48px] rounded-2xl bg-zinc-900 border border-white/10 px-4 text-white placeholder:text-zinc-500" />
+      </div>
+      <div>
+        <label for="offer-name" class="block text-sm font-medium mb-2">Full name</label>
+        <input id="offer-name" name="name" type="text" required autocomplete="name" placeholder="Ada Lovelace" class="w-full min-h-[48px] rounded-2xl bg-zinc-900 border border-white/10 px-4 text-white placeholder:text-zinc-500" />
+      </div>
+      <div>
+        <label for="offer-email" class="block text-sm font-medium mb-2">Work email</label>
+        <input id="offer-email" name="email" type="email" required autocomplete="email" placeholder="you@studio.com" class="w-full min-h-[48px] rounded-2xl bg-zinc-900 border border-white/10 px-4 text-white placeholder:text-zinc-500" />
+      </div>
+      <div>
+        <label for="offer-message" class="block text-sm font-medium mb-2">Intended use / message</label>
+        <textarea id="offer-message" name="message" required rows="4" placeholder="AI design platform, agency rebrand, investment…" class="w-full rounded-2xl bg-zinc-900 border border-white/10 px-4 py-3 text-white placeholder:text-zinc-500"></textarea>
+      </div>
+      <p id="offer-error" class="hidden text-sm text-rose-400" role="alert"></p>
+      <p id="offer-success" class="hidden text-sm text-emerald-400" role="status"></p>
+      <button type="submit" data-track="offer-submit" class="w-full min-h-[56px] inline-flex items-center justify-center gap-x-3 rounded-2xl bg-white text-zinc-950 font-semibold text-lg hover:bg-zinc-100 transition-all">
+        <span id="offer-submit-label">Continue — $95,000</span>
+        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+      </button>
+      <p class="text-xs text-zinc-500 text-center">No spam. Serious inquiries only. Or email <a class="underline" href="mailto:sales@desertrich.com">sales@desertrich.com</a>.</p>
+    </form>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var modal = document.getElementById('offer-modal');
+    var form = document.getElementById('offer-form');
+    var err = document.getElementById('offer-error');
+    var ok = document.getElementById('offer-success');
+    var amountWrap = document.getElementById('offer-amount-wrap');
+    var submitLabel = document.getElementById('offer-submit-label');
+    var kind = 'buy';
+    function setKind(k) {
+      kind = k;
+      document.querySelectorAll('.kind-btn').forEach(function (b) {
+        var active = b.getAttribute('data-kind') === k;
+        b.classList.toggle('bg-white', active);
+        b.classList.toggle('text-zinc-950', active);
+      });
+      if (amountWrap) amountWrap.classList.toggle('hidden', k !== 'offer');
+      if (submitLabel) submitLabel.textContent = k === 'offer' ? 'Submit Offer' : k === 'agent' ? 'Contact Agent' : 'Continue — $95,000';
+    }
+    document.querySelectorAll('.kind-btn').forEach(function (b) {
+      b.addEventListener('click', function () { setKind(b.getAttribute('data-kind') || 'buy'); });
+    });
+    function open(k) {
+      setKind(k || 'buy');
+      if (err) err.classList.add('hidden');
+      if (ok) ok.classList.add('hidden');
+      if (modal) modal.classList.remove('hidden');
+    }
+    function close() { if (modal) modal.classList.add('hidden'); }
+    document.querySelectorAll('[data-offer-open]').forEach(function (b) {
+      b.addEventListener('click', function () { open(b.getAttribute('data-offer-open')); });
+    });
+    document.querySelectorAll('[data-offer-close]').forEach(function (b) {
+      b.addEventListener('click', close);
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+    if (form) {
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        if (err) err.classList.add('hidden');
+        if (ok) ok.classList.add('hidden');
+        var fd = new FormData(form);
+        var payload = {
+          kind: kind,
+          name: String(fd.get('name') || ''),
+          email: String(fd.get('email') || ''),
+          message: String(fd.get('message') || ''),
+          offer: String(fd.get('offer') || ''),
+        };
+        try {
+          var res = await fetch('/api/inquire', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          var data = await res.json();
+          if (!res.ok || !data.ok) throw new Error(data.error || 'Submission failed.');
+          if (ok) {
+            ok.textContent = 'Received. Opening your email to complete the secure inquiry…';
+            ok.classList.remove('hidden');
+          }
+          setTimeout(function () { window.location.href = data.mailto; }, 600);
+        } catch (ex) {
+          if (err) {
+            err.textContent = ex instanceof Error ? ex.message : 'Submission failed.';
+            err.classList.remove('hidden');
+          }
+        }
+      });
+    }
+  })();
+</script>

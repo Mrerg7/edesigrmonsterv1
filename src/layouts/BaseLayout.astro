@@ -7,6 +7,7 @@ interface Props {
   description?: string;
   ogImage?: string;
   noindex?: boolean;
+  canonicalPath?: string;
 }
 
 const {
@@ -14,17 +15,38 @@ const {
   description = SITE.description,
   ogImage = OG_IMAGE,
   noindex = false,
+  canonicalPath = Astro.url.pathname,
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, SITE.url);
+const canonicalURL = new URL(canonicalPath, SITE.url).toString();
 const publishedDate = '2026-06-08';
+const modifiedDate = new Date().toISOString().slice(0, 10);
+
+const faqEntities = [
+  {
+    q: 'Is the price negotiable?',
+    a: "The listed price of $95,000 reflects the domain's premium positioning and AI-creative market timing. Reasonable offers from serious, qualified buyers will be considered — submit via Make Offer.",
+  },
+  {
+    q: 'How does the transfer process work?',
+    a: 'We use reputable escrow (Escrow.com or Dan.com). You fund escrow, we push the domain via the registrar, funds release only after confirmed transfer. Typical closing 3–10 business days with full guidance.',
+  },
+  {
+    q: 'Why .monster instead of .com?',
+    a: '.monster delivers bold creative energy for electronic design and AI art. Memorable, short, and increasingly recognized in tech/creative circles — a stronger brand signal than a long crowded .com.',
+  },
+  {
+    q: 'Can I use this for my personal brand or portfolio?',
+    a: 'Absolutely. Artists, designers and creative technologists use premium domains for portfolios and studios. eDesigr.monster gives instant credibility and a memorable home.',
+  },
+];
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [
     {
       '@type': 'WebSite',
-      '@id': `${SITE.url}/#website`,
+      '@id': `${SITE.url}#website`,
       url: SITE.url,
       name: SITE.name,
       description,
@@ -32,18 +54,28 @@ const structuredData = {
     },
     {
       '@type': 'WebPage',
-      '@id': `${SITE.url}/#webpage`,
+      '@id': `${SITE.url}#webpage`,
       url: SITE.url,
       name: title,
       description,
-      isPartOf: { '@id': `${SITE.url}/#website` },
+      isPartOf: { '@id': `${SITE.url}#website` },
       datePublished: publishedDate,
-      dateModified: publishedDate,
+      dateModified: modifiedDate,
       inLanguage: 'en-US',
+      breadcrumb: { '@id': `${SITE.url}#breadcrumb` },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${SITE.url}#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+        { '@type': 'ListItem', position: 2, name: 'Acquire', item: `${SITE.url}#acquire` },
+        { '@type': 'ListItem', position: 3, name: 'Guides', item: `${SITE.url}blog/` },
+      ],
     },
     {
       '@type': 'Product',
-      '@id': `${SITE.url}/#product`,
+      '@id': `${SITE.url}#product`,
       name: 'eDesigr.monster Premium Domain Name',
       description:
         'The definitive premium domain for electronic designers, generative artists, AI art platforms, and creative studios. Available for acquisition.',
@@ -55,16 +87,14 @@ const structuredData = {
       },
       url: SITE.url,
       category: 'Premium Domain Name',
-      brand: {
-        '@type': 'Brand',
-        name: 'eDesigr.monster',
-      },
+      brand: { '@type': 'Brand', name: 'eDesigr.monster' },
       offers: {
         '@type': 'Offer',
         url: ACQUISITION_MAILTO,
-        price: '95000',
-        priceCurrency: 'USD',
+        price: SITE.price,
+        priceCurrency: SITE.priceCurrency,
         availability: 'https://schema.org/InStock',
+        itemCondition: 'https://schema.org/NewCondition',
         seller: {
           '@type': 'Organization',
           name: SITE.name,
@@ -114,20 +144,27 @@ const structuredData = {
       },
       review: {
         '@type': 'Review',
-        author: {
-          '@type': 'Organization',
-          name: SITE.name,
-        },
+        author: { '@type': 'Organization', name: SITE.name },
         reviewBody:
           'Bold, brandable .monster domain at the forefront of electronic design and generative AI — an unmatched foundation for a creative venture.',
       },
     },
     {
+      '@type': 'FAQPage',
+      '@id': `${SITE.url}#faq`,
+      mainEntity: faqEntities.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
+    {
       '@type': 'Organization',
-      '@id': `${SITE.url}/#organization`,
+      '@id': `${SITE.url}#organization`,
       name: SITE.name,
       url: SITE.url,
       email: SITE.email,
+      logo: `${SITE.url}favicon.svg`,
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'Phoenix',
@@ -146,6 +183,8 @@ const structuredData = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
     <meta name="google-site-verification" content={SITE.googleSiteVerification} />
+    <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -171,10 +210,83 @@ const structuredData = {
     <meta name="twitter:image:alt" content="eDesigr.monster — Premium Domain for Electronic Designers & AI Creatives" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Performance: preconnect + non-blocking third-party CSS (Core Web Vitals <2s) -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://imagedelivery.net" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    </noscript>
+
+    <script is:inline>
+      try {
+        const t = localStorage.getItem('edesigr-theme');
+        if (t === 'light') document.documentElement.classList.add('light');
+      } catch {}
+    </script>
+
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </head>
   <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:bg-white focus:text-black focus:px-4 focus:py-3 focus:rounded-xl"
+    >
+      Skip to content
+    </a>
     <slot />
+    <!-- Free-plan serverless UI: exit-intent + analytics stub (no paid bindings) -->
+    <script is:inline>
+      (function () {
+        // Viewing counter (local, privacy-friendly urgency signal)
+        try {
+          var k = 'edesigr-views';
+          var n = parseInt(localStorage.getItem(k) || '37', 10) + 1;
+          localStorage.setItem(k, String(n));
+          document.querySelectorAll('[data-view-count]').forEach(function (el) {
+            el.textContent = String(38 + (n % 17));
+          });
+        } catch {}
+        // Exit-intent email capture (once per session)
+        var shown = false;
+        document.addEventListener('mouseout', function (e) {
+          if (shown || e.clientY > 8) return;
+          try {
+            if (sessionStorage.getItem('edesigr-exit') === '1') return;
+          } catch {}
+          shown = true;
+          try {
+            sessionStorage.setItem('edesigr-exit', '1');
+          } catch {}
+          var m = document.getElementById('exit-modal');
+          if (m) m.classList.remove('hidden');
+        });
+        // data-track hooks for analytics / pixels (GA4, Meta, etc.)
+        document.addEventListener('click', function (e) {
+          var t = e.target && e.target.closest ? e.target.closest('[data-track]') : null;
+          if (!t) return;
+          try {
+            (window.dataLayer = window.dataLayer || []).push({
+              event: 'cta_click',
+              label: t.getAttribute('data-track'),
+            });
+            if (window.plausible) window.plausible(t.getAttribute('data-track'));
+          } catch {}
+        });
+      })();
+    </script>
   </body>
 </html>

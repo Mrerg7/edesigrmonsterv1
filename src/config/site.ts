@@ -1,12 +1,14 @@
 export const SITE = {
   name: 'eDesigr.monster',
-  title: 'eDesigr.monster • Premium Domain for Sale | Electronic Designers & AI Creatives',
+  title: 'eDesigr.monster | Premium Domain for Sale | eDesigr',
   description:
-    'eDesigr.monster — The definitive premium domain for electronic designers, generative artists, AI art platforms, and creative studios using AI for art and copy. Strategic acquisition available.',
+    'eDesigr.monster for sale — $95,000 via secure escrow. Premium domain for electronic designers, AI art platforms & creative studios. Buy now or make an offer today.',
   url: 'https://edesigr.monster/',
   email: 'sales@desertrich.com',
   locale: 'en_US',
   location: 'Arizona',
+  price: '95000',
+  priceCurrency: 'USD',
   googleSiteVerification: 'T36XqRlqBzC_NkBJNi-_JsoKOeyTvxzRPlPRz1FZu8w',
 } as const;
 
